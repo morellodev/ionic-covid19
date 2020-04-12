@@ -1,6 +1,5 @@
-import MessageListItem from '../components/MessageListItem';
-import React, { useState } from 'react';
-import { Message, getMessages } from '../data/messages';
+import React, { useState } from "react";
+import { useQuery } from "react-query";
 import {
   IonContent,
   IonHeader,
@@ -8,34 +7,37 @@ import {
   IonPage,
   IonRefresher,
   IonRefresherContent,
+  IonSearchbar,
   IonTitle,
   IonToolbar,
-  useIonViewWillEnter
-} from '@ionic/react';
-import './Home.css';
+  IonLoading,
+} from "@ionic/react";
+import { Country } from "../models/Country";
+import CountryListItem from "../components/CountryListItem";
 
 const Home: React.FC = () => {
+  const [searchText, setSearchText] = useState<string>("");
 
-  const [messages, setMessages] = useState<Message[]>([]);
+  const { data, refetch, status } = useQuery("summary", async (path) => {
+    const res = await fetch(`https://api.covid19api.com/${path}`);
+    const data = await res.json();
 
-  useIonViewWillEnter(() => {
-    const msgs = getMessages();
-    setMessages(msgs);
+    return data;
   });
 
-  const refresh = (e: CustomEvent) => {
-    setTimeout(() => {
-      e.detail.complete();
-    }, 3000);
-  };
+  async function refresh(e: CustomEvent) {
+    await refetch();
+    e.detail.complete();
+  }
 
   return (
-    <IonPage id="home-page">
-      <IonHeader>
+    <IonPage>
+      <IonHeader translucent>
         <IonToolbar>
-          <IonTitle>Inbox</IonTitle>
+          <IonTitle>Countries</IonTitle>
         </IonToolbar>
       </IonHeader>
+
       <IonContent fullscreen>
         <IonRefresher slot="fixed" onIonRefresh={refresh}>
           <IonRefresherContent></IonRefresherContent>
@@ -43,14 +45,31 @@ const Home: React.FC = () => {
 
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">
-              Inbox
-            </IonTitle>
+            <IonTitle size="large">Countries</IonTitle>
           </IonToolbar>
+          <IonSearchbar
+            value={searchText}
+            onIonChange={(e) => setSearchText(e.detail.value!)}
+            showCancelButton="focus"
+          />
         </IonHeader>
 
+        <IonLoading isOpen={status === "loading"} message="Loading data..." />
+
         <IonList>
-          {messages.map(m => <MessageListItem key={m.id} message={m} />)}
+          {data?.Countries?.filter((country: Country) => {
+            const lowerCaseCountry = country.Country.toLowerCase();
+            const query = searchText.toLowerCase();
+
+            return lowerCaseCountry.match(query);
+          })
+            .sort(
+              (countryA: Country, countryB: Country) =>
+                countryB.TotalConfirmed - countryA.TotalConfirmed
+            )
+            .map((country: Country) => (
+              <CountryListItem key={country.CountryCode} country={country} />
+            ))}
         </IonList>
       </IonContent>
     </IonPage>

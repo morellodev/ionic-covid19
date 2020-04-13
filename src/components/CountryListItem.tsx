@@ -6,6 +6,8 @@ interface CountryListItemProps {
   country: Country;
 }
 
+const numberFormatter = new Intl.NumberFormat();
+
 const CountryListItem: React.FC<CountryListItemProps> = ({ country }) => {
   return (
     <IonItem routerLink={`/country/${country.Slug}`}>
@@ -16,7 +18,9 @@ const CountryListItem: React.FC<CountryListItemProps> = ({ country }) => {
         />
       </IonAvatar>
       <IonLabel>{country.Country}</IonLabel>
-      <IonNote slot="end">{country.TotalConfirmed}</IonNote>
+      <IonNote slot="end">
+        {numberFormatter.format(country.TotalConfirmed)}
+      </IonNote>
     </IonItem>
   );
 };

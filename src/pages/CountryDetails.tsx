@@ -1,4 +1,5 @@
 import React from "react";
+import { useQuery } from "react-query";
 import {
   IonBackButton,
   IonButtons,
@@ -9,10 +10,23 @@ import {
 } from "@ionic/react";
 import { RouteComponentProps } from "react-router";
 import StatsCard from "../components/StatsCard";
+import { Country } from "../models/Country";
 
 interface CountryDetailsProps extends RouteComponentProps<{ slug: string }> {}
 
 const CountryDetails: React.FC<CountryDetailsProps> = ({ match }) => {
+  const { data, status } = useQuery(
+    () => !!match.params.slug && ["summary", match.params.slug],
+    async (path, countrySlug) => {
+      const res = await fetch(`https://api.covid19api.com/${path}`);
+      const data = await res.json();
+
+      return data.Countries.find(
+        (country: Country) => country.Slug === countrySlug
+      );
+    }
+  );
+
   return (
     <IonPage>
       <IonHeader translucent>
@@ -24,9 +38,21 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({ match }) => {
       </IonHeader>
 
       <IonContent fullscreen>
-        <StatsCard countrySlug={match.params.slug} type="confirmed" />
-        <StatsCard countrySlug={match.params.slug} type="recovered" />
-        <StatsCard countrySlug={match.params.slug} type="deaths" />
+        <StatsCard
+          count={data?.TotalConfirmed}
+          loading={status === "loading"}
+          type="confirmed"
+        />{" "}
+        <StatsCard
+          count={data?.TotalRecovered}
+          loading={status === "loading"}
+          type="recovered"
+        />{" "}
+        <StatsCard
+          count={data?.TotalDeaths}
+          loading={status === "loading"}
+          type="deaths"
+        />
       </IonContent>
     </IonPage>
   );

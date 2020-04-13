@@ -25,7 +25,7 @@ const Home: React.FC = () => {
     return data;
   });
 
-  async function refresh(e: CustomEvent) {
+  async function onPullToRefresh(e: CustomEvent) {
     await refetch();
     e.detail.complete();
   }
@@ -39,7 +39,7 @@ const Home: React.FC = () => {
       </IonHeader>
 
       <IonContent fullscreen>
-        <IonRefresher slot="fixed" onIonRefresh={refresh}>
+        <IonRefresher slot="fixed" onIonRefresh={onPullToRefresh}>
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
 
@@ -47,11 +47,13 @@ const Home: React.FC = () => {
           <IonToolbar>
             <IonTitle size="large">Countries</IonTitle>
           </IonToolbar>
-          <IonSearchbar
-            value={searchText}
-            onIonChange={(e) => setSearchText(e.detail.value!)}
-            showCancelButton="focus"
-          />
+          <IonToolbar>
+            <IonSearchbar
+              value={searchText}
+              onIonChange={(e) => setSearchText(e.detail.value!)}
+              showCancelButton="focus"
+            />
+          </IonToolbar>
         </IonHeader>
 
         <IonLoading isOpen={status === "loading"} message="Loading data..." />

@@ -1,32 +1,21 @@
 import React, { useCallback } from "react";
-import { useQuery } from "react-query";
 import {
   IonCard,
-  IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
   IonSpinner,
+  IonCardContent,
 } from "@ionic/react";
-import { Country } from "../models/Country";
 
 interface StatsCardProps {
-  countrySlug: string;
+  count: number;
+  loading: boolean;
   type: "confirmed" | "recovered" | "deaths";
 }
 
-const StatsCard: React.FC<StatsCardProps> = ({ countrySlug, type }) => {
-  const { data, status } = useQuery(
-    () => ["summary", countrySlug],
-    async (path) => {
-      const res = await fetch(`https://api.covid19api.com/${path}`);
-      const data = await res.json();
+const numberFormatter = new Intl.NumberFormat();
 
-      return data.Countries.find(
-        (country: Country) => country.Slug === countrySlug
-      );
-    }
-  );
-
+const StatsCard: React.FC<StatsCardProps> = ({ count, loading, type }) => {
   const getCardSubtitle = useCallback(() => {
     switch (type) {
       case "confirmed":
@@ -40,36 +29,14 @@ const StatsCard: React.FC<StatsCardProps> = ({ countrySlug, type }) => {
     }
   }, [type]);
 
-  const getCardTitle = useCallback(
-    (countryData: Country) => {
-      switch (type) {
-        case "confirmed":
-          return countryData.TotalConfirmed;
-        case "recovered":
-          return countryData.TotalRecovered;
-        case "deaths":
-          return countryData.TotalDeaths;
-        default:
-          return undefined;
-      }
-    },
-    [type]
-  );
-
   return (
     <IonCard>
-      <IonCardHeader>
+      <IonCardContent>
         <IonCardSubtitle>{getCardSubtitle()}</IonCardSubtitle>
         <IonCardTitle>
-          {status === "loading" ? (
-            <IonSpinner name="dots" />
-          ) : data ? (
-            getCardTitle(data)
-          ) : (
-            "Error"
-          )}
+          {loading ? <IonSpinner name="dots" /> : numberFormatter.format(count)}
         </IonCardTitle>
-      </IonCardHeader>
+      </IonCardContent>
     </IonCard>
   );
 };

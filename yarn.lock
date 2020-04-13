@@ -8789,9 +8789,9 @@ react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-i
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
 react-query@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/react-query/-/react-query-1.2.1.tgz#dfc9cc4afe3253b8df9f76d466fad5f50d06a535"
-  integrity sha512-2x1D1U1FOfLqlgTxpPCWyVkVE85eqskOabSasjRODDoyKS0TXCF6kQyq3P1/0TkFEUwTQIjV9hDz2MDaAJVqMw==
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/react-query/-/react-query-1.2.3.tgz#db904d119b750cac07b59823bd5a69dcbda58a5f"
+  integrity sha512-94puy1PhGKp5g+2kRsCGcps3xNGKOycE8Z6vYTmFUD1ir2aUpEU5nD2p4aT5ATYPsa5jH6eOgxhZym+S90mRMA==
   dependencies:
     "@scarf/scarf" "^0.1.3"
 

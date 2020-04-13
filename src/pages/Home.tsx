@@ -64,7 +64,9 @@ const Home: React.FC = () => {
               const lowerCaseCountry = country.Country.toLowerCase();
               const query = searchText.toLowerCase();
 
-              return lowerCaseCountry.match(query);
+              return (
+                country.TotalConfirmed > 0 && lowerCaseCountry.match(query)
+              );
             })
               .sort(
                 (countryA: Country, countryB: Country) =>

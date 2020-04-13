@@ -6,14 +6,13 @@ import {
   IonSpinner,
   IonCardContent,
 } from "@ionic/react";
+import NumberCount from "./NumberCount";
 
 interface StatsCardProps {
   count: number;
   loading: boolean;
   type: "confirmed" | "recovered" | "deaths";
 }
-
-const numberFormatter = new Intl.NumberFormat();
 
 const StatsCard: React.FC<StatsCardProps> = ({ count, loading, type }) => {
   const getCardSubtitle = useCallback(() => {
@@ -34,7 +33,11 @@ const StatsCard: React.FC<StatsCardProps> = ({ count, loading, type }) => {
       <IonCardContent>
         <IonCardSubtitle>{getCardSubtitle()}</IonCardSubtitle>
         <IonCardTitle>
-          {loading ? <IonSpinner name="dots" /> : numberFormatter.format(count)}
+          {loading ? (
+            <IonSpinner name="dots" />
+          ) : (
+            <NumberCount>{count}</NumberCount>
+          )}
         </IonCardTitle>
       </IonCardContent>
     </IonCard>

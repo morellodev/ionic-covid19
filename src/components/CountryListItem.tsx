@@ -1,12 +1,11 @@
 import React from "react";
 import { IonItem, IonLabel, IonNote, IonAvatar } from "@ionic/react";
 import { Country } from "../models/Country";
+import NumberCount from "./NumberCount";
 
 interface CountryListItemProps {
   country: Country;
 }
-
-const numberFormatter = new Intl.NumberFormat();
 
 const CountryListItem: React.FC<CountryListItemProps> = ({ country }) => {
   return (
@@ -19,7 +18,7 @@ const CountryListItem: React.FC<CountryListItemProps> = ({ country }) => {
       </IonAvatar>
       <IonLabel>{country.Country}</IonLabel>
       <IonNote slot="end">
-        {numberFormatter.format(country.TotalConfirmed)}
+        <NumberCount>{country.TotalConfirmed}</NumberCount>
       </IonNote>
     </IonItem>
   );

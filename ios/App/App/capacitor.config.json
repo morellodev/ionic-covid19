@@ -2,7 +2,7 @@
   "appId": "dev.morello.covid19",
   "appName": "ionic-covid19",
   "bundledWebRuntime": false,
-  "npmClient": "npm",
+  "npmClient": "yarn",
   "webDir": "build",
   "cordova": {}
 }

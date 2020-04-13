@@ -5,13 +5,13 @@
     {
       "src": "assets/icon/favicon.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "64x64"
     },
     {
       "src": "assets/icon/icon.png",
       "type": "image/png",
       "sizes": "512x512",
-      "purpose": "maskable"
+      "purpose": "maskable any"
     }
   ],
   "start_url": ".",

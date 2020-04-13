@@ -58,21 +58,23 @@ const Home: React.FC = () => {
 
         <IonLoading isOpen={status === "loading"} message="Loading data..." />
 
-        <IonList>
-          {data?.Countries?.filter((country: Country) => {
-            const lowerCaseCountry = country.Country.toLowerCase();
-            const query = searchText.toLowerCase();
+        {data?.Countries?.length && (
+          <IonList>
+            {data.Countries.filter((country: Country) => {
+              const lowerCaseCountry = country.Country.toLowerCase();
+              const query = searchText.toLowerCase();
 
-            return lowerCaseCountry.match(query);
-          })
-            .sort(
-              (countryA: Country, countryB: Country) =>
-                countryB.TotalConfirmed - countryA.TotalConfirmed
-            )
-            .map((country: Country) => (
-              <CountryListItem key={country.CountryCode} country={country} />
-            ))}
-        </IonList>
+              return lowerCaseCountry.match(query);
+            })
+              .sort(
+                (countryA: Country, countryB: Country) =>
+                  countryB.TotalConfirmed - countryA.TotalConfirmed
+              )
+              .map((country: Country) => (
+                <CountryListItem key={country.CountryCode} country={country} />
+              ))}
+          </IonList>
+        )}
       </IonContent>
     </IonPage>
   );

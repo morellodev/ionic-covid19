@@ -1,5 +1,5 @@
 import React from "react";
-import { IonItem, IonLabel, IonNote, IonAvatar } from "@ionic/react";
+import { IonItem, IonLabel, IonAvatar, IonBadge } from "@ionic/react";
 import { Country } from "../models/Country";
 import NumberCount from "./NumberCount";
 
@@ -17,9 +17,9 @@ const CountryListItem: React.FC<CountryListItemProps> = ({ country }) => {
         />
       </IonAvatar>
       <IonLabel>{country.Country}</IonLabel>
-      <IonNote slot="end">
+      <IonBadge slot="end" color="medium">
         <NumberCount>{country.TotalConfirmed}</NumberCount>
-      </IonNote>
+      </IonBadge>
     </IonItem>
   );
 };

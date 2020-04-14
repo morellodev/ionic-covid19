@@ -71,7 +71,7 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({ match }) => {
       <IonHeader translucent>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton text="Countries" defaultHref="/home"></IonBackButton>
+            <IonBackButton defaultHref="/home"></IonBackButton>
           </IonButtons>
           <IonTitle>{data?.Country}</IonTitle>
           {data && (

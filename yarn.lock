@@ -1085,6 +1085,20 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
+"@ionic-native/core@^5.23.0":
+  version "5.23.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/core/-/core-5.23.0.tgz#69bb05a5491c94c1f8656246a237d4caa2e41d41"
+  integrity sha512-AQ+l9GnRVLnnbXWhAImywTxk62GNtOfmX2U0hJw/dtRAjZZn8C3u9Pszcbw9pN0I/yc1PKFvNqxa8nFP7XrzRQ==
+  dependencies:
+    "@types/cordova" latest
+
+"@ionic-native/social-sharing@^5.23.0":
+  version "5.23.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/social-sharing/-/social-sharing-5.23.0.tgz#6dc0b39e0cd02094e7a1efc43ca0533d91304cf3"
+  integrity sha512-ro4h3HOeeh4cY7FEBuafEiOjqLPA+nd0F2QS+w+YaKbPt2yPVpogrgJQqd+sMDxkClqrsSmKNFn1D6dh3CHNBw==
+  dependencies:
+    "@types/cordova" latest
+
 "@ionic/core@5.0.7":
   version "5.0.7"
   resolved "https://registry.yarnpkg.com/@ionic/core/-/core-5.0.7.tgz#fbb8877991204a721ebfdd56600e6e3931efda7e"
@@ -1472,6 +1486,11 @@
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
+
+"@types/cordova@latest":
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/@types/cordova/-/cordova-0.0.34.tgz#ea7addf74ecec3d7629827a0c39e2c9addc73d04"
+  integrity sha1-6nrd907Ow9dimCegw54smt3HPQQ=
 
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
@@ -3191,6 +3210,11 @@ copy-descriptor@^0.1.0:
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
+cordova-plugin-x-socialsharing@^5.6.4:
+  version "5.6.4"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-x-socialsharing/-/cordova-plugin-x-socialsharing-5.6.4.tgz#92b87dc9daddfa8d1db4692257b1968f60e61ee6"
+  integrity sha512-bBjWY9TgoH1CMK4P26zLT1D9rVcvI9LoIEGUjmwdLGiBP+IWo7RXu90RM1xHmVjG5hVLgmic5XyWc665ye8aRQ==
+
 core-js-compat@^3.6.2:
   version "3.6.5"
   resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.6.5.tgz#2a51d9a4e25dfd6e690251aa81f99e3c05481f1c"
@@ -4015,6 +4039,11 @@ es6-iterator@2.0.3, es6-iterator@~2.0.3:
     d "1"
     es5-ext "^0.10.35"
     es6-symbol "^3.1.1"
+
+es6-promise-plugin@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/es6-promise-plugin/-/es6-promise-plugin-4.2.2.tgz#cfa0cc1383d91f999a62a2bbf4bd97bec305e0ac"
+  integrity sha512-uoA4aVplXI9oqUYJFBAVRwAqIN9/n9JgrTAUGX3qPbnSZVE5yY1+6/MsoN5f4xsaPO62WjPHOdtts6okMN6tNA==
 
 es6-symbol@^3.1.1, es6-symbol@~3.1.3:
   version "3.1.3"

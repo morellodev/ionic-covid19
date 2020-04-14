@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import {
   IonContent,
@@ -11,12 +11,18 @@ import {
   IonTitle,
   IonToolbar,
   IonLoading,
+  isPlatform,
+  IonButton,
+  IonIcon,
+  IonButtons,
 } from "@ionic/react";
+import { search } from "ionicons/icons";
 import { Country } from "../models/Country";
 import CountryListItem from "../components/CountryListItem";
 
 const Home: React.FC = () => {
-  const [searchText, setSearchText] = useState<string>("");
+  const [searchText, setSearchText] = useState("");
+  const [showSearchbar, setShowSearchbar] = useState(false);
 
   const { data, refetch, status } = useQuery("summary", async (path) => {
     const res = await fetch(`https://api.covid19api.com/${path}`);
@@ -25,16 +31,45 @@ const Home: React.FC = () => {
     return data;
   });
 
-  async function onPullToRefresh(e: CustomEvent) {
-    await refetch();
-    e.detail.complete();
-  }
+  const onPullToRefresh = useCallback(
+    async (event: CustomEvent) => {
+      await refetch();
+      event.detail.complete();
+    },
+    [refetch]
+  );
+
+  const onSearchTextChanged = useCallback((event: CustomEvent) => {
+    setSearchText(event.detail.value!);
+  }, []);
+
+  const toggleSearchbar = useCallback(() => {
+    setShowSearchbar((wasSearchbarShown) => !wasSearchbarShown);
+  }, []);
 
   return (
     <IonPage>
       <IonHeader translucent>
         <IonToolbar>
-          <IonTitle>Countries</IonTitle>
+          {showSearchbar ? (
+            <IonSearchbar
+              value={searchText}
+              onIonChange={onSearchTextChanged}
+              onIonCancel={toggleSearchbar}
+              showCancelButton="always"
+            />
+          ) : (
+            <>
+              <IonTitle>Countries</IonTitle>
+              {!isPlatform("ios") && (
+                <IonButtons slot="end">
+                  <IonButton onClick={toggleSearchbar}>
+                    <IonIcon icon={search} />
+                  </IonButton>
+                </IonButtons>
+              )}
+            </>
+          )}
         </IonToolbar>
       </IonHeader>
 
@@ -43,18 +78,20 @@ const Home: React.FC = () => {
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
 
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Countries</IonTitle>
-          </IonToolbar>
-          <IonToolbar>
-            <IonSearchbar
-              value={searchText}
-              onIonChange={(e) => setSearchText(e.detail.value!)}
-              showCancelButton="focus"
-            />
-          </IonToolbar>
-        </IonHeader>
+        {isPlatform("ios") && (
+          <IonHeader collapse="condense">
+            <IonToolbar>
+              <IonTitle size="large">Countries</IonTitle>
+            </IonToolbar>
+            <IonToolbar>
+              <IonSearchbar
+                value={searchText}
+                onIonChange={onSearchTextChanged}
+                showCancelButton="focus"
+              />
+            </IonToolbar>
+          </IonHeader>
+        )}
 
         <IonLoading isOpen={status === "loading"} message="Loading data..." />
 

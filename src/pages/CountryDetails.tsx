@@ -7,8 +7,12 @@ import {
   IonHeader,
   IonPage,
   IonToolbar,
+  IonTitle,
+  IonButton,
+  IonIcon,
 } from "@ionic/react";
 import { RouteComponentProps } from "react-router";
+import { share } from "ionicons/icons";
 import StatsCard from "../components/StatsCard";
 import { Country } from "../models/Country";
 
@@ -31,9 +35,10 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({ match }) => {
     <IonPage>
       <IonHeader translucent>
         <IonToolbar>
-          <IonButtons>
+          <IonButtons slot="start">
             <IonBackButton text="Countries" defaultHref="/home"></IonBackButton>
           </IonButtons>
+          <IonTitle>{data?.Country}</IonTitle>
         </IonToolbar>
       </IonHeader>
 
@@ -42,12 +47,12 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({ match }) => {
           count={data?.TotalConfirmed}
           loading={status === "loading"}
           type="confirmed"
-        />{" "}
+        />
         <StatsCard
           count={data?.TotalRecovered}
           loading={status === "loading"}
           type="recovered"
-        />{" "}
+        />
         <StatsCard
           count={data?.TotalDeaths}
           loading={status === "loading"}

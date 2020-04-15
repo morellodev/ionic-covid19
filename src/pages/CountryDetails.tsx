@@ -15,7 +15,7 @@ import {
 } from "@ionic/react";
 import { SocialSharing } from "@ionic-native/social-sharing";
 import { RouteComponentProps } from "react-router";
-import { share } from "ionicons/icons";
+import { shareOutline } from "ionicons/icons";
 import StatsCard from "../components/StatsCard";
 import { Country } from "../models/Country";
 
@@ -77,7 +77,7 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({ match }) => {
           {data && (
             <IonButtons slot="end">
               <IonButton onClick={openShareSheet}>
-                <IonIcon icon={share} />
+                <IonIcon icon={shareOutline} />
               </IonButton>
             </IonButtons>
           )}

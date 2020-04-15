@@ -1,5 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { useQuery } from "react-query";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import {
   IonBackButton,
   IonButtons,
@@ -12,12 +14,17 @@ import {
   IonIcon,
   isPlatform,
   IonToast,
+  IonFooter,
+  IonNote,
 } from "@ionic/react";
 import { SocialSharing } from "@ionic-native/social-sharing";
 import { RouteComponentProps } from "react-router";
 import { shareOutline } from "ionicons/icons";
 import StatsCard from "../components/StatsCard";
 import { Country } from "../models/Country";
+
+// Add relative time plugin to DayJS
+dayjs.extend(relativeTime);
 
 interface CountryDetailsProps extends RouteComponentProps<{ slug: string }> {}
 
@@ -36,13 +43,23 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({ match }) => {
     }
   );
 
+  const getFooterLabel = useCallback(() => {
+    if (data?.Date) {
+      const lastUpdate = dayjs(data?.Date);
+
+      return `Updated ${dayjs().to(lastUpdate)}`;
+    }
+
+    return "Updating...";
+  }, [data]);
+
   const onToastDismiss = useCallback(() => {
     setToastMessage(undefined);
   }, []);
 
   const openShareSheet = useCallback(async () => {
     const lastUpdate = data?.Date
-      ? new Date(data.Date).toUTCString()
+      ? dayjs(data.Date).format("MMMM D, YYYY [at] h:mm A")
       : "unknown";
 
     const messageToShare = {
@@ -115,6 +132,12 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({ match }) => {
           ]}
         />
       </IonContent>
+
+      <IonFooter translucent className="ion-text-center">
+        <IonToolbar>
+          <IonNote>{getFooterLabel()}</IonNote>
+        </IonToolbar>
+      </IonFooter>
     </IonPage>
   );
 };

@@ -9,7 +9,7 @@ interface CountryListItemProps {
 
 const CountryListItem: React.FC<CountryListItemProps> = ({ country }) => {
   return (
-    <IonItem routerLink={`/country/${country.Slug}`}>
+    <IonItem routerLink={`/countries/${country.Slug}`}>
       <IonAvatar slot="start">
         <img
           alt={country.CountryCode}

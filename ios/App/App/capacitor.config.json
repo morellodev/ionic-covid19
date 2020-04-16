@@ -4,5 +4,9 @@
   "bundledWebRuntime": false,
   "npmClient": "yarn",
   "webDir": "build",
-  "cordova": {}
+  "cordova": {},
+  "server": {
+    "url": "http://localhost:8100",
+    "cleartext": true
+  }
 }

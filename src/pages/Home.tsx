@@ -63,7 +63,7 @@ const Home: React.FC = () => {
               <IonTitle>Countries</IonTitle>
               {!isPlatform("ios") && (
                 <IonButtons slot="end">
-                  <IonButton onClick={toggleSearchbar}>
+                  <IonButton slot="icon-only" onClick={toggleSearchbar}>
                     <IonIcon icon={search} />
                   </IonButton>
                 </IonButtons>

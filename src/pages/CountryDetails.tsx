@@ -93,7 +93,7 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({ match }) => {
           <IonTitle>{data?.Country}</IonTitle>
           {data && (
             <IonButtons slot="end">
-              <IonButton onClick={openShareSheet}>
+              <IonButton slot="icon-only" onClick={openShareSheet}>
                 <IonIcon icon={shareOutline} />
               </IonButton>
             </IonButtons>

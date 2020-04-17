@@ -1,5 +1,4 @@
-import React, { useCallback, useState } from "react";
-import { useQuery } from "react-query";
+import React, { useCallback, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import {
@@ -23,6 +22,9 @@ import { shareOutline } from "ionicons/icons";
 import StatsCard from "../components/StatsCard";
 import { Country } from "../models/Country";
 
+// Contexts
+import { useCovidData } from "../contexts/CovidData.context";
+
 // Add relative time plugin to DayJS
 dayjs.extend(relativeTime);
 
@@ -31,40 +33,36 @@ interface CountryDetailsProps extends RouteComponentProps<{ slug: string }> {}
 const CountryDetails: React.FC<CountryDetailsProps> = ({ match }) => {
   const [toastMessage, setToastMessage] = useState<string | undefined>();
 
-  const { data, status } = useQuery(
-    () => !!match.params.slug && ["summary", match.params.slug],
-    async (path, countrySlug) => {
-      const res = await fetch(`https://api.covid19api.com/${path}`);
-      const data = await res.json();
+  const { data, status } = useCovidData();
 
-      return data.Countries.find(
-        (country: Country) => country.Slug === countrySlug
-      );
-    }
-  );
+  const countryData = useMemo(() => {
+    return data.Countries.find(
+      (country: Country) => country.Slug === match.params.slug
+    );
+  }, [data.Countries, match.params.slug]);
 
   const getFooterLabel = useCallback(() => {
-    if (data?.Date) {
-      const lastUpdate = dayjs(data?.Date);
+    if (countryData?.Date) {
+      const lastUpdate = dayjs(countryData?.Date);
 
       return `Updated ${dayjs().to(lastUpdate)}`;
     }
 
     return "Updating...";
-  }, [data]);
+  }, [countryData]);
 
   const onToastDismiss = useCallback(() => {
     setToastMessage(undefined);
   }, []);
 
   const openShareSheet = useCallback(async () => {
-    const lastUpdate = data?.Date
-      ? dayjs(data.Date).format("MMMM D, YYYY [at] h:mm A")
+    const lastUpdate = countryData?.Date
+      ? dayjs(countryData.Date).format("MMMM D, YYYY [at] h:mm A")
       : "unknown";
 
     const messageToShare = {
-      title: `COVID-19 Stats for ${data?.Country}`,
-      text: `COVID-19 Stats for ${data?.Country}\n\nConfirmed: ${data?.TotalConfirmed}\nRecovered: ${data?.TotalRecovered}\nDeaths: ${data?.TotalDeaths}\n\nLast update: ${lastUpdate}`,
+      title: `COVID-19 Stats for ${countryData?.Country}`,
+      text: `COVID-19 Stats for ${countryData?.Country}\n\nConfirmed: ${countryData?.TotalConfirmed}\nRecovered: ${countryData?.TotalRecovered}\nDeaths: ${countryData?.TotalDeaths}\n\nLast update: ${lastUpdate}`,
     };
 
     try {
@@ -81,7 +79,7 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({ match }) => {
     } catch (error) {
       setToastMessage("Sharing is not available");
     }
-  }, [data]);
+  }, [countryData]);
 
   return (
     <IonPage>
@@ -90,8 +88,8 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({ match }) => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/countries"></IonBackButton>
           </IonButtons>
-          <IonTitle>{data?.Country}</IonTitle>
-          {data && (
+          <IonTitle>{countryData?.Country}</IonTitle>
+          {countryData && (
             <IonButtons slot="end">
               <IonButton slot="icon-only" onClick={openShareSheet}>
                 <IonIcon icon={shareOutline} />
@@ -103,17 +101,17 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({ match }) => {
 
       <IonContent fullscreen>
         <StatsCard
-          count={data?.TotalConfirmed}
+          count={countryData?.TotalConfirmed}
           loading={status === "loading"}
           type="confirmed"
         />
         <StatsCard
-          count={data?.TotalRecovered}
+          count={countryData?.TotalRecovered}
           loading={status === "loading"}
           type="recovered"
         />
         <StatsCard
-          count={data?.TotalDeaths}
+          count={countryData?.TotalDeaths}
           loading={status === "loading"}
           type="deaths"
         />

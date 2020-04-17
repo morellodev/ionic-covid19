@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react";
-import { useQuery } from "react-query";
 import {
   IonContent,
   IonHeader,
@@ -20,16 +19,14 @@ import { search } from "ionicons/icons";
 import { Country } from "../models/Country";
 import CountryListItem from "../components/CountryListItem";
 
+// Contexts
+import { useCovidData } from "../contexts/CovidData.context";
+
 const Home: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [showSearchbar, setShowSearchbar] = useState(false);
 
-  const { data, refetch, status } = useQuery("summary", async (path) => {
-    const res = await fetch(`https://api.covid19api.com/${path}`);
-    const data = await res.json();
-
-    return data;
-  });
+  const { data, refetch, status } = useCovidData();
 
   const onPullToRefresh = useCallback(
     async (event: CustomEvent) => {
